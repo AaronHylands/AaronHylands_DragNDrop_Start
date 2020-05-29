@@ -1,6 +1,8 @@
 (() => {
 	// set up the puzzle pieces and boards
 	const puzzleButtons = document.querySelectorAll('#buttonHolder img'),
+				puzzlePieces = document.querySelectorAll(".puzzle-image"),
+				dropZones = document.querySelectorAll(".drop-zone"),
 				gameBoard = document.querySelector(".puzzle-board");
 
 	function changeImageSet() {
@@ -10,11 +12,31 @@
 		gameBoard.style.backgroundImage = `url(images/backGround${this.dataset.bgkey}.jpg)`;
 	}
 
+	function allowDrag() {
+		console.log('started dragging and image: ', this.id);
+	}
+
+	function allowDragOver() {
+		event.preventDefault();
+		console.log('dragged something over me!');
+	}
+
+	function allowDrop(event) {
+		console.log('dropped something on me!');
+	}
 	// add event handling here -> how is the user going to use our app?
 	// what triggers do we need?
 
 	// click on the bottom buttons to change the puzzle image we're working with
 	puzzleButtons.forEach(button => button.addEventListener('click', changeImageSet));
+
+	puzzlePieces.forEach(piece => piece.addEventListener('dragstart', allowDrag));
+
+	dropZones.forEach(zone => {
+		zone.addEventListener('dragover', allowDragOver);
+		zone.addEventListener('drop', allowDrop);
+
+});
 
 	// research call, apply and bind
 	changeImageSet.call(puzzleButtons[0]);
